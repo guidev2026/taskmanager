@@ -10,9 +10,9 @@ O foco principal foi construir uma aplicação que seguisse os padrões de merca
 ## 🛠️ Stack Tecnológica
 
 * **Linguagem:** Java 21 (LTS)
-* **Framework:** Spring Boot 3.x
+* **Framework:** Spring Boot 4.0.6
 * **Banco de Dados:** MySQL 8.0
-* **ORM:** Spring Data JPA (Hibernate)
+* **ORM:** Spring Data JPA (Hibernate 7.x)
 * **Ferramentas de Build:** Maven
 * **Infraestrutura:** Docker & Docker Compose
 * **Produtividade:** Lombok & Java Records (DTOs)
@@ -24,10 +24,10 @@ O foco principal foi construir uma aplicação que seguisse os padrões de merca
 
 Para elevar o nível deste CRUD, apliquei padrões utilizados em sistemas de grande escala:
 
-1.  **Arquitetura em Camadas:** Separação clara entre `Controller` (Entrada), `Service` (Negócio) e `Repository` (Dados).
-2.  **Padrão DTO com Records:** Uso de Java Records para transferência de dados, garantindo imutabilidade e proteção das entidades do banco de dados.
-3.  **Handler de Exceções Global:** Implementação de um `@ControllerAdvice` para capturar erros e retornar respostas padronizadas (JSON) para o cliente.
-4.  **Isolamento com Docker:** Configuração de um ambiente persistente onde o banco de dados MySQL roda em um container, isolando a infraestrutura da máquina local.
+1. **Arquitetura em Camadas:** Separação clara entre `Controller` (Entrada), `Service` (Negócio) e `Repository` (Dados).
+2. **Padrão DTO com Records:** Uso de Java Records para transferência de dados, garantindo imutabilidade e proteção das entidades do banco de dados.
+3. **Handler de Exceções Global:** Implementação de um `@ControllerAdvice` para capturar erros e retornar respostas padronizadas (JSON) para o cliente.
+4. **Isolamento com Docker:** Configuração de um ambiente persistente onde o banco de dados MySQL roda em um container, isolando a infraestrutura da máquina local.
 
 ---
 
@@ -40,4 +40,43 @@ Para elevar o nível deste CRUD, apliquei padrões utilizados em sistemas de gra
 ### 1. Preparando o Banco de Dados (Docker)
 Na raiz do projeto, onde está o arquivo `docker-compose.yml`, execute:
 ```bash
-docker-compose up -d
+docker compose up -d
+```
+*Isso subirá um container MySQL na porta **3307**, configurado para persistir os dados mesmo se o container for parado.*
+
+### 2. Executando a Aplicação
+Você pode rodar via sua IDE (IntelliJ/Eclipse) ou pelo terminal:
+```bash
+./mvnw spring-boot:run
+```
+
+A API estará disponível em: `http://localhost:8080/tasks`
+
+---
+
+## 🛣️ Documentação da API (Endpoints)
+
+| Método | Endpoint | Descrição |
+| :--- | :--- | :--- |
+| `GET` | `/tasks` | Lista todas as tarefas com paginação. |
+| `GET` | `/tasks/{id}` | Retorna os detalhes de uma tarefa específica. |
+| `POST` | `/tasks` | Cria uma nova tarefa (Valida título e descrição). |
+| `PUT` | `/tasks/{id}` | Atualiza os dados de uma tarefa existente. |
+| `DELETE` | `/tasks/{id}` | Remove permanentemente uma tarefa. |
+
+### Exemplo de Payload (POST):
+```json
+{
+  "title": "Aprender Docker",
+  "description": "Configurar container MySQL para o portfólio",
+  "status": "PENDENTE",
+  "priority": "ALTA",
+  "dueDate": "2026-12-31T23:59:59Z"
+}
+```
+
+---
+
+## 👨‍💻 Autor
+
+**Guilherme Teixeira Silva** desenvolvedor backend https://www.linkedin.com/in/guilherme-teixeira-0a45a937a | guilherm3teixeir4@gmail.com
